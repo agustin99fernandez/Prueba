@@ -1,0 +1,94 @@
+!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Problemas</title>
+  <!-- Agregar enlaces a Bootstrap CSS y JS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>Registro de Problemas</h2>
+
+  <div class="mb-3">
+    <button class="btn btn-primary mr-2" onclick="agregarPC()">Agregar PC</button>
+    <button class="btn btn-success" onclick="resolverProblema()">Resolver Problema</button>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre de la PC</th>
+        <th>Número de Incidentes</th>
+        <th>Resuelto</th>
+      </tr>
+    </thead>
+    <tbody id="problemasTableBody">
+      <!-- Aquí se llenarán dinámicamente los datos -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Agregar enlace a Bootstrap JS y Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<script>
+  // Datos iniciales de ejemplo (puedes reemplazar esto con datos dinámicos de tu aplicación)
+  let datosProblemas = [
+    { nombrePC: 'PC1', incidentes: 3, resuelto: true },
+    { nombrePC: 'PC2', incidentes: 5, resuelto: false },
+    { nombrePC: 'PC3', incidentes: 1, resuelto: true },
+  ];
+
+  // Función para llenar la tabla con los datos
+  function llenarTabla() {
+    const tabla = document.getElementById('problemasTableBody');
+
+    // Limpiar la tabla antes de agregar nuevos datos
+    tabla.innerHTML = '';
+
+    // Iterar sobre los datos y agregar filas a la tabla
+    datosProblemas.forEach((problema) => {
+      const fila = tabla.insertRow();
+      const celdaNombrePC = fila.insertCell(0);
+      const celdaIncidentes = fila.insertCell(1);
+      const celdaResuelto = fila.insertCell(2);
+
+      celdaNombrePC.textContent = problema.nombrePC;
+      celdaIncidentes.textContent = problema.incidentes;
+      celdaResuelto.textContent = problema.resuelto ? 'Sí' : 'No';
+    });
+  }
+
+  // Función para agregar una nueva PC
+  function agregarPC() {
+    const nombrePC = prompt('Ingrese el nombre de la nueva PC:');
+    if (nombrePC) {
+      datosProblemas.push({ nombrePC, incidentes: 0, resuelto: false });
+      llenarTabla();
+    }
+  }
+
+  // Función para resolver un problema
+  function resolverProblema() {
+    const nombrePC = prompt('Ingrese el nombre de la PC con el problema resuelto:');
+    const pcEncontrada = datosProblemas.find((pc) => pc.nombrePC === nombrePC);
+
+    if (pcEncontrada) {
+      pcEncontrada.resuelto = true;
+      llenarTabla();
+    } else {
+      alert('No se encontró la PC especificada.');
+    }
+  }
+
+  // Llamar a la función para llenar la tabla al cargar la página
+  llenarTabla();
+</script>
+
+</body>
+</html>
